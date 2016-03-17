@@ -22,10 +22,17 @@ public class VendingMachineKataTest {
     }
     
     @Test
-    public void testReturnCoinAmountOfTenShouldBeTen(){
+    public void testGetAmountPaidTenShouldReturnTen(){
         setup();
         v.insertCoin(10);
         assertEquals("10", v.getAmountPaid());
+    }
+    
+    @Test
+    public void testGetAmountPaidFiveShouldReturnFive(){
+        setup();
+        v.insertCoin(5);
+        assertEquals("5", v.getAmountPaid());
     }
     
 }

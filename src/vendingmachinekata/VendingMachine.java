@@ -14,16 +14,16 @@ package vendingmachinekata;
  */
 public class VendingMachine {
     
-    private int currentPaid;
+    private Integer currentPaid = 0;
 
     public VendingMachine() {
         
     }
     public void insertCoin(int coin){
-        
+        currentPaid += coin;
     }
     public String getAmountPaid(){
-        return "10";
+        return currentPaid.toString();
     }
 
 //    /**
