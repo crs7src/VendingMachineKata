@@ -24,21 +24,21 @@ public class VendingMachineKataTest {
     @Test
     public void testGetAmountPaidTenShouldReturnTen(){
         setup();
-        v.insertCoin(10);
+        v.insertCoin("dime");
         assertEquals("10", v.display());
     }
     
     @Test
     public void testGetAmountPaidFiveShouldReturnFive(){
         setup();
-        v.insertCoin(5);
-        assertEquals("5", v.display());
+        v.insertCoin("Quarter");
+        assertEquals("25", v.display());
     }
     
     @Test
     public void testRejectImproperValueOne(){
         setup();
-        v.insertCoin(1);
+        v.insertCoin("penny");
         assertEquals("Not a valid coin.", v.display());
     }
     

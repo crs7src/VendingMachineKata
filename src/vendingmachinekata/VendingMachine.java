@@ -9,11 +9,12 @@ public class VendingMachine {
 
     }
 
-    public void insertCoin(int coin) {
-        if (coin != 5 && coin != 10 && coin != 25) {
+    public void insertCoin(String coin) {
+        int value = checkValue(coin);
+        if (value == 1) {
             currentDisplay = "Not a valid coin.";
         } else {
-            currentPaid += coin;
+            currentPaid += value;
             currentDisplay = currentPaid.toString();
         }
     }
@@ -27,6 +28,19 @@ public class VendingMachine {
 //    }
     public String display() {
         return currentDisplay;
+    }
+
+    private int checkValue(String coin) {
+        if ("QUARTER".equals(coin.toUpperCase())) {
+            return 25;
+        } else if ("NICKEL".equals(coin.toUpperCase())) {
+            return 5;
+        } else if ("DIME".equals(coin.toUpperCase())) {
+            return 10;
+        } else {
+            return 1;
+        }
+
     }
 
 }
