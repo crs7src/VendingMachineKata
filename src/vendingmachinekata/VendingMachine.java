@@ -1,18 +1,22 @@
 package vendingmachinekata;
 
+import java.util.ArrayList;
+
 public class VendingMachine {
 
     private Integer currentPaid = 0;
     private String currentDisplay;
+    private ArrayList<String> coinReturn;
 
     public VendingMachine() {
-
+        coinReturn = new ArrayList();
     }
 
     public void insertCoin(String coin) {
         int value = checkValue(coin);
         if (value == 1) {
             currentDisplay = "Not a valid coin.";
+            coinReturn.add(coin);
         } else {
             currentPaid += value;
             currentDisplay = currentPaid.toString();
@@ -24,8 +28,6 @@ public class VendingMachine {
         return currentPaid;
     }
 
-//    public static void main(String[] args) {
-//    }
     public String display() {
         return currentDisplay;
     }
@@ -40,7 +42,14 @@ public class VendingMachine {
         } else {
             return 1;
         }
+    }
 
+    public String returnCoins() {
+        String coins = coinReturn.get(0);
+        for (int i = 1; i < coinReturn.size(); i++) {
+            coins += ", " + coinReturn.get(i);
+        }
+        return coins;
     }
 
 }

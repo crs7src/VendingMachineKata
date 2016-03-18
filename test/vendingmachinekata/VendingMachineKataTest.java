@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vendingmachinekata;
 
 import org.junit.Test;
@@ -42,4 +37,10 @@ public class VendingMachineKataTest {
         assertEquals("Not a valid coin.", v.display());
     }
     
+    @Test
+    public void testCoinPennyIsReturned(){
+        setup();
+        v.insertCoin("Penny");
+        assertEquals("Penny", v.returnCoins());
+    }
 }
