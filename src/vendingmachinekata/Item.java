@@ -5,6 +5,14 @@ public class Item {
     private double value;
     private String name;
 
+    public Item(double value, String name) {
+        this.value = value;
+        this.name = name;
+    }
+
+    public Item() {
+    }
+
     public double getValue() {
         return value;
     }

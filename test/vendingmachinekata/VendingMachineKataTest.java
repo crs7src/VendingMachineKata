@@ -18,14 +18,14 @@ public class VendingMachineKataTest {
     public void testGetAmountPaidTenShouldReturnTen(){
         setup();
         v.insertCoin("dime");
-        assertEquals("10", v.display());
+        assertEquals("0.10", v.display());
     }
     
     @Test
     public void testGetAmountPaidFiveShouldReturnFive(){
         setup();
         v.insertCoin("Quarter");
-        assertEquals("25", v.display());
+        assertEquals("0.25", v.display());
     }
     
     @Test
@@ -49,7 +49,7 @@ public class VendingMachineKataTest {
         v.insertCoin("Quarter");
         v.insertCoin("Quarter");
         v.insertCoin("quarter");
-//        assertEquals("cola", v.requestItem("cola"));
+        assertEquals("cola", v.requestItem("cola"));
     }
     
     @Test

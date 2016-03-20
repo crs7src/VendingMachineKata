@@ -8,6 +8,9 @@ public class VendingMachine {
     private String currentDisplay;
     private ArrayList<String> coinReturn;
     private boolean coinAllowed;
+    private final Item cola = new Item(1.00, "cola");
+    private final Item chips = new Item(0.50, "chips");
+    private final Item candy = new Item(0.65, "candy");
 
     public VendingMachine() {
         coinReturn = new ArrayList();
@@ -58,11 +61,11 @@ public class VendingMachine {
         if(coinAllowed == false){
             currentDisplay = "Not a valid coin.";
         }else if(currentPaid != 0){
-            currentDisplay = currentPaid.toString();
+            currentDisplay = String.format("%.2f", currentPaid);
         }
     }
     
-    private void requestItem(Item product){
-        
+    public String requestItem(String product){
+        return product;
     }
 }
