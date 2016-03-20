@@ -4,26 +4,28 @@ import java.util.ArrayList;
 
 public class VendingMachine {
 
-    private Integer currentPaid = 0;
+    private Double currentPaid = 0.0;
     private String currentDisplay;
     private ArrayList<String> coinReturn;
+    private boolean coinAllowed;
 
     public VendingMachine() {
         coinReturn = new ArrayList();
     }
 
     public void insertCoin(String coin) {
-        int value = checkValue(coin);
+        double value = checkValue(coin);
         if (value == 1) {
-            currentDisplay = "Not a valid coin.";
             coinReturn.add(coin);
+            coinAllowed = false;
         } else {
+            coinAllowed = true;
             currentPaid += value;
-            currentDisplay = currentPaid.toString();
         }
+        updateDisplay();
     }
 
-    public int getAmountPaid() {
+    public double getAmountPaid() {
 
         return currentPaid;
     }
@@ -32,13 +34,13 @@ public class VendingMachine {
         return currentDisplay;
     }
 
-    private int checkValue(String coin) {
+    private double checkValue(String coin) {
         if ("QUARTER".equals(coin.toUpperCase())) {
-            return 25;
+            return .25;
         } else if ("NICKEL".equals(coin.toUpperCase())) {
-            return 5;
+            return .05;
         } else if ("DIME".equals(coin.toUpperCase())) {
-            return 10;
+            return .10;
         } else {
             return 1;
         }
@@ -51,5 +53,16 @@ public class VendingMachine {
         }
         return coins;
     }
-
+    
+    private void updateDisplay(){
+        if(coinAllowed == false){
+            currentDisplay = "Not a valid coin.";
+        }else if(currentPaid != 0){
+            currentDisplay = currentPaid.toString();
+        }
+    }
+    
+    private void requestItem(Item product){
+        
+    }
 }

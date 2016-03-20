@@ -9,9 +9,7 @@ import static org.junit.Assert.*;
  */
 public class VendingMachineKataTest {
     private VendingMachine v;
-    /**
-     * Test of main method, of class VendingMachineKata.
-     */
+    
     public void setup() {
         v = new VendingMachine();
     }
@@ -43,4 +41,25 @@ public class VendingMachineKataTest {
         v.insertCoin("Penny");
         assertEquals("Penny", v.returnCoins());
     }
+    
+    @Test
+    public void testGivingMoneyForColaAndRequestingCola(){
+        setup();
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("quarter");
+//        assertEquals("cola", v.requestItem("cola"));
+    }
+    
+    @Test
+    public void testGivingMoneyForChipsAndRequestingChips(){
+        
+    }
+    
+    @Test
+    public void testGivingMoneyForCandyAndRequestingCandy(){
+        
+    }
 }
+
