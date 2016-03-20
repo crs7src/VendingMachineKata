@@ -11,6 +11,8 @@ public class VendingMachine {
     private final Item cola = new Item(1.00, "cola");
     private final Item chips = new Item(0.50, "chips");
     private final Item candy = new Item(0.65, "candy");
+    private Item itemRequested;
+    public Item dispenser = null;
 
     public VendingMachine() {
         coinReturn = new ArrayList();
@@ -24,6 +26,9 @@ public class VendingMachine {
         } else {
             coinAllowed = true;
             currentPaid += value;
+            if(itemRequested != null && itemRequested.getValue()<=currentPaid){
+                returnItem();
+            }
         }
         updateDisplay();
     }
@@ -62,10 +67,42 @@ public class VendingMachine {
             currentDisplay = "Not a valid coin.";
         }else if(currentPaid != 0){
             currentDisplay = String.format("%.2f", currentPaid);
+        }else if(itemRequested == null){
+            currentDisplay = "THANK YOU";
         }
     }
     
-    public String requestItem(String product){
-        return product;
+    public void requestItem(String product){
+        if(product.toUpperCase().equals(cola.getName().toUpperCase())){
+            itemRequested = cola;
+            if(currentPaid >= cola.getValue()){
+                returnItem();
+            }
+        }else if(product.toUpperCase().equals(chips.getName().toUpperCase())){
+            itemRequested = chips;
+            if(currentPaid >= chips.getValue()){
+                returnItem();
+            }
+        }else if(product.toUpperCase().equals(candy.getName().toUpperCase())){
+            itemRequested = candy;
+            if(currentPaid >= candy.getValue()){
+                returnItem();
+            }
+        }
     }
+    
+    private void returnItem(){
+        if(itemRequested == cola){
+            dispenser = cola;
+            currentPaid -= cola.getValue();
+        } else if(itemRequested == chips && currentPaid >= chips.getValue()){
+            dispenser = chips;
+            currentPaid -= chips.getValue();
+        } else if(itemRequested == candy && currentPaid >= candy.getValue()){
+            dispenser = candy;
+            currentPaid-= candy.getValue();
+        }
+    }
+    
+    
 }
