@@ -50,10 +50,13 @@ public class VendingMachine {
 
     private double checkValue(String coin) {
         if ("QUARTER".equals(coin.toUpperCase())) {
+            coins[2]++;
             return .25;
         } else if ("NICKEL".equals(coin.toUpperCase())) {
+            coins[0]++;
             return .05;
         } else if ("DIME".equals(coin.toUpperCase())) {
+            coins[1]++;
             return .10;
         } else {
             return 1;
@@ -167,6 +170,8 @@ public class VendingMachine {
     private void checkCoins() {
         if (coins[0] == 0 || (coins[0] < 2 && coins[1] == 0)) {
             cannotProvideChange = true;
+        } else{
+            cannotProvideChange = false;
         }
     }
 
