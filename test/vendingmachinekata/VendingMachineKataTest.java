@@ -139,4 +139,11 @@ public class VendingMachineKataTest {
         v.requestItem("cola");
         assertEquals("Nickel", v.returnCoins());
     }
+    
+    @Test
+    public void testHavingSoldOutDisplayedIfRanOutOfItem(){
+        setup();
+        v.requestItem("cola");
+        assertEquals("SOLD OUT", v.display());
+    }
 }

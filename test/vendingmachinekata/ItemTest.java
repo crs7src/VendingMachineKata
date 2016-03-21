@@ -43,4 +43,11 @@ public class ItemTest {
         assertEquals("chips", one.getName());
     }
     
+    @Test
+    public void testSettingQuantityOfItemToTen(){
+        setup();
+        one.setQuantity(10);
+        assertEquals(10, one.getQuantity());
+    }
+    
 }
