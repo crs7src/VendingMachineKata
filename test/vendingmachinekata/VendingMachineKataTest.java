@@ -99,7 +99,7 @@ public class VendingMachineKataTest {
     }
 
     @Test
-    public void testDisplayMoneyAmountIfMoneyIsLeftAfterTransaction() {
+    public void testDisplayChangeAmountIfChangeIsLeftAfterTransaction() {
         setup();
         v.insertCoin("Quarter");
         v.insertCoin("Quarter");
@@ -125,5 +125,18 @@ public class VendingMachineKataTest {
     public void testCoinReturnShouldReturnNothingIfNoCoinsWereInput(){
         setup();
         assertEquals("Nothing", v.returnCoins());
+    }
+    
+    @Test
+    public void testCoinReturnReturnsChangeAfterOrderCompletion(){
+        setup();
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("quarter");
+        v.insertCoin("dime");
+        v.insertCoin("dime");
+        v.insertCoin("dime");
+        v.requestItem("cola");
+        assertEquals("Nickel", v.returnCoins());
     }
 }

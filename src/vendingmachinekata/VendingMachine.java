@@ -33,7 +33,6 @@ public class VendingMachine {
     }
 
     public double getAmountPaid() {
-
         return currentPaid;
     }
 
@@ -55,8 +54,10 @@ public class VendingMachine {
     }
 
     public String returnCoins() {
-        if(coinReturn.isEmpty()){
+        if (coinReturn.isEmpty() && currentPaid == 0) {
             return "Nothing";
+        } else if (coinReturn.isEmpty()) {
+            makeChange();
         }
         String coins = coinReturn.get(0);
         for (int i = 1; i < coinReturn.size(); i++) {
@@ -99,7 +100,21 @@ public class VendingMachine {
 
     private void returnItem() {
         dispenser = itemRequested;
+        coinReturn.clear();
         currentPaid -= itemRequested.getValue();
     }
 
+    private void makeChange() {
+        double change = currentPaid;
+        if (change >= .25) {
+            coinReturn.add("Quarter");
+            change -= .25;
+        }else if(change >= .1){
+            coinReturn.add("Dime");
+            change -= .10;
+        }else if(change >= .05){
+            coinReturn.add("Nickel");
+            change -= .05;
+        }
+    }
 }
