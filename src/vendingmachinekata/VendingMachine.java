@@ -6,7 +6,7 @@ public class VendingMachine {
 
     private Double currentPaid = 0.0;
     private String currentDisplay;
-    private ArrayList<String> coinReturn;
+    private ArrayList<String> coinReturn = new ArrayList();
     private boolean coinAllowed;
     private final Item cola = new Item(1.00, "cola");
     private final Item chips = new Item(0.50, "chips");
@@ -15,15 +15,15 @@ public class VendingMachine {
     public Item dispenser = null;
 
     public VendingMachine() {
-        coinReturn = new ArrayList();
     }
 
     public void insertCoin(String coin) {
         double value = checkValue(coin);
         if (value == 1) {
-            coinReturn.add(coin);
             coinAllowed = false;
+            coinReturn.add(coin);
         } else {
+            coinReturn.add(coin);
             coinAllowed = true;
             currentPaid += value;
             if (itemRequested != null && itemRequested.getValue() <= currentPaid) {
@@ -55,6 +55,9 @@ public class VendingMachine {
     }
 
     public String returnCoins() {
+        if(coinReturn.isEmpty()){
+            return "Nothing";
+        }
         String coins = coinReturn.get(0);
         for (int i = 1; i < coinReturn.size(); i++) {
             coins += ", " + coinReturn.get(i);
