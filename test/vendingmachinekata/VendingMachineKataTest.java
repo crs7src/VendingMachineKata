@@ -174,22 +174,14 @@ public class VendingMachineKataTest {
         v.requestItem("cola");
         v.requestItem("chips");
         v.requestItem("cola");
+        v.requestItem("cola");
         assertEquals("SOLD OUT", v.display());
     }
     
     @Test
     public void testInsertCoinDisplayedIfRanOutOfColaAndDisplayAlreadyCheckedAndNoCoinsAreLeft(){
         setup();
-        v.insertCoin("Quarter");
-        v.insertCoin("Quarter");
-        v.insertCoin("quarter");
-        v.insertCoin("Quarter");
-        v.insertCoin("Quarter");
-        v.insertCoin("quarter");
-        v.insertCoin("Quarter");
-        v.insertCoin("Quarter");
-        v.requestItem("cola");
-        v.requestItem("cola");
+        v.setItemAmount("cola", 0);
         v.requestItem("cola");
         v.display();
         assertEquals("INSERT COINS", v.display());
@@ -198,19 +190,51 @@ public class VendingMachineKataTest {
     @Test
     public void testDisplayAmountIfRanOutOfColaAndDisplayAlreadyChecked(){
         setup();
-        v.insertCoin("Quarter");
-        v.insertCoin("Quarter");
-        v.insertCoin("quarter");
-        v.insertCoin("Quarter");
-        v.insertCoin("Quarter");
-        v.insertCoin("quarter");
-        v.insertCoin("Quarter");
-        v.insertCoin("Quarter");
+        v.setItemAmount("cola", 0);
         v.insertCoin("nickel");
-        v.requestItem("cola");
-        v.requestItem("cola");
         v.requestItem("cola");
         v.display();
         assertEquals("0.05", v.display());
+    }
+    
+    @Test
+    public void testMachineShouldDisplayExactChangeOnlyIfItCannotMakeChange(){
+        setup();
+        v.setChangeAmount("nickel", 0);
+        assertEquals("EXACT CHANGE ONLY", v.display());
+    }
+    
+    @Test
+    public void testMachineLosingCoinsUntilItCantMakeChangeThenItShouldDisplayExactChangeOnly(){
+        setup();
+        v.setChangeAmount("Nickel", 2);
+        v.insertCoin("dime");
+        v.insertCoin("dime");
+        v.insertCoin("dime");
+        v.insertCoin("quarter");
+        v.requestItem("chips");
+        v.returnCoins();
+        v.insertCoin("dime");
+        v.insertCoin("dime");
+        v.insertCoin("dime");
+        v.insertCoin("quarter");
+        v.requestItem("chips");
+        v.returnCoins();
+        v.display();
+        assertEquals("EXACT CHANGE ONLY", v.display());
+    }
+    
+    @Test
+    public void testMachineStartingWithNotEnoughChangeAndGainingEnoughCoins(){
+        setup();
+        v.setChangeAmount("Nickel", 0);
+        assertEquals("EXACT CHANGE ONLY", v.display());
+        v.insertCoin("Nickel");
+        v.insertCoin("Dime");
+        v.insertCoin("quarter");
+        v.insertCoin("quarter");
+        v.requestItem("candy");
+        v.display();
+        assertEquals("INSERT COINS", v.display());
     }
 }

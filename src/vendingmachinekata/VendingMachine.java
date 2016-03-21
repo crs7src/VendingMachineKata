@@ -4,18 +4,23 @@ import java.util.ArrayList;
 
 public class VendingMachine {
 
+    public int[] coins = new int[3];
     private Double currentPaid = 0.0;
     private String currentDisplay;
     private ArrayList<String> coinReturn = new ArrayList();
-    private boolean coinAllowed;
+    private boolean coinAllowed = true;
     private final Item cola = new Item(1.00, "cola", 2);
     private final Item chips = new Item(0.50, "chips", 2);
     private final Item candy = new Item(0.65, "candy", 2);
     private Item itemRequested;
     private boolean soldOut = false;
+    private boolean cannotProvideChange;
     public Item dispenser = null;
 
     public VendingMachine() {
+        for (int i = 0; i < 3; i++) {
+            coins[i] = 4;
+        }
     }
 
     public void insertCoin(String coin) {
@@ -38,6 +43,7 @@ public class VendingMachine {
     }
 
     public String display() {
+        checkCoins();
         updateDisplay();
         return currentDisplay;
     }
@@ -60,11 +66,37 @@ public class VendingMachine {
         } else if (coinReturn.isEmpty()) {
             makeChange();
         }
-        String coins = coinReturn.get(0);
+        String returningCoins = coinReturn.get(0);
+        removeCoinsFromStorage();
         for (int i = 1; i < coinReturn.size(); i++) {
-            coins += ", " + coinReturn.get(i);
+            returningCoins += ", " + coinReturn.get(i);
         }
-        return coins;
+        currentPaid = 0.0;
+        coinReturn.clear();
+        return returningCoins;
+    }
+
+    private void removeCoinsFromStorage() {
+        for (int i = 0; i < coinReturn.size(); i++) {
+            if (coinReturn.get(i).toUpperCase().equals("QUARTER")) {
+                coins[2]--;
+            } else if (coinReturn.get(i).toUpperCase().equals("DIME")) {
+                coins[1]--;
+            } else if (coinReturn.get(i).toUpperCase().equals("NICKEL")) {
+                coins[0]--;
+            }
+        }
+
+    }
+
+    public void setItemAmount(String item, int amount) {
+        if (item.toUpperCase().equals(cola.getName().toUpperCase())) {
+            cola.setQuantity(amount);
+        } else if (item.toUpperCase().equals(chips.getName().toUpperCase())) {
+            chips.setQuantity(amount);
+        } else if (item.toUpperCase().equals(candy.getName().toUpperCase())) {
+            candy.setQuantity(amount);
+        }
     }
 
     private void updateDisplay() {
@@ -80,6 +112,8 @@ public class VendingMachine {
         } else if (itemRequested != null) {
             currentDisplay = "THANK YOU";
             itemRequested = null;
+        } else if (cannotProvideChange) {
+            currentDisplay = "EXACT CHANGE ONLY";
         } else {
             currentDisplay = "INSERT COINS";
         }
@@ -88,28 +122,28 @@ public class VendingMachine {
     public void requestItem(String product) {
         if (product.toUpperCase().equals(cola.getName().toUpperCase())) {
             itemRequested = cola;
-            if (currentPaid >= cola.getValue()) {
-                returnItem();
-            }
+            processItemRequest();
         } else if (product.toUpperCase().equals(chips.getName().toUpperCase())) {
             itemRequested = chips;
-            if (currentPaid >= chips.getValue()) {
-                returnItem();
-            }
+            processItemRequest();
         } else if (product.toUpperCase().equals(candy.getName().toUpperCase())) {
             itemRequested = candy;
-            if (currentPaid >= candy.getValue()) {
-                returnItem();
-            }
+            processItemRequest();
         }
+    }
+
+    public void processItemRequest() {
         if (itemRequested.getQuantity() == 0) {
             soldOut = true;
+        }
+        if (currentPaid >= itemRequested.getValue()) {
+            returnItem();
         }
     }
 
     private void returnItem() {
-        if (!soldOut) {
-            itemRequested.setQuantity(itemRequested.getQuantity() -1);
+        if (!soldOut && (!cannotProvideChange || currentPaid == itemRequested.getValue())) {
+            itemRequested.setQuantity(itemRequested.getQuantity() - 1);
             dispenser = itemRequested;
             coinReturn.clear();
             currentPaid -= itemRequested.getValue();
@@ -128,6 +162,21 @@ public class VendingMachine {
             coinReturn.add("Nickel");
             change -= .05;
         }
+    }
 
+    private void checkCoins() {
+        if (coins[0] == 0 || (coins[0] < 2 && coins[1] == 0)) {
+            cannotProvideChange = true;
+        }
+    }
+
+    public void setChangeAmount(String coin, int amount) {
+        if ("QUARTER".equals(coin.toUpperCase())) {
+            coins[2] = amount;
+        } else if ("DIME".equals(coin.toUpperCase())) {
+            coins[1] = amount;
+        } else if ("NICKEL".equals(coin.toUpperCase())) {
+            coins[0] = amount;
+        }
     }
 }
