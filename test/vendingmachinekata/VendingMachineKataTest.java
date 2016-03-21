@@ -74,8 +74,26 @@ public class VendingMachineKataTest {
     }
     
     @Test
-    public void testGivingMoneyForCandyAndRequestingCandy(){
-        
+    public void testDisplayEqualsThankYouAfterItemIsDispensed(){
+        setup();
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.requestItem("cola");
+        v.insertCoin("quarter");
+        v.insertCoin("quarter");
+        assertEquals("THANK YOU", v.display());
+    }
+    
+    @Test
+    public void testDisplayGoesBackToInsertCoinAfterThankYou(){
+        setup();
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.requestItem("cola");
+        v.insertCoin("quarter");
+        v.insertCoin("quarter");
+        v.display();
+        assertEquals("INSERT COINS", v.display());
     }
 }
 

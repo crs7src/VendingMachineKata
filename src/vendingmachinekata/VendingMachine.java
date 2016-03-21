@@ -26,11 +26,10 @@ public class VendingMachine {
         } else {
             coinAllowed = true;
             currentPaid += value;
-            if(itemRequested != null && itemRequested.getValue()<=currentPaid){
+            if (itemRequested != null && itemRequested.getValue() <= currentPaid) {
                 returnItem();
             }
         }
-        updateDisplay();
     }
 
     public double getAmountPaid() {
@@ -39,6 +38,7 @@ public class VendingMachine {
     }
 
     public String display() {
+        updateDisplay();
         return currentDisplay;
     }
 
@@ -61,48 +61,42 @@ public class VendingMachine {
         }
         return coins;
     }
-    
-    private void updateDisplay(){
-        if(coinAllowed == false){
+
+    private void updateDisplay() {
+        if (coinAllowed == false) {
             currentDisplay = "Not a valid coin.";
-        }else if(currentPaid != 0){
+        } else if (currentPaid != 0) {
             currentDisplay = String.format("%.2f", currentPaid);
-        }else if(itemRequested == null){
+        } else if (itemRequested != null) {
             currentDisplay = "THANK YOU";
+            itemRequested = null;
+        } else {
+            currentDisplay = "INSERT COINS";
         }
     }
-    
-    public void requestItem(String product){
-        if(product.toUpperCase().equals(cola.getName().toUpperCase())){
+
+    public void requestItem(String product) {
+        if (product.toUpperCase().equals(cola.getName().toUpperCase())) {
             itemRequested = cola;
-            if(currentPaid >= cola.getValue()){
+            if (currentPaid >= cola.getValue()) {
                 returnItem();
             }
-        }else if(product.toUpperCase().equals(chips.getName().toUpperCase())){
+        } else if (product.toUpperCase().equals(chips.getName().toUpperCase())) {
             itemRequested = chips;
-            if(currentPaid >= chips.getValue()){
+            if (currentPaid >= chips.getValue()) {
                 returnItem();
             }
-        }else if(product.toUpperCase().equals(candy.getName().toUpperCase())){
+        } else if (product.toUpperCase().equals(candy.getName().toUpperCase())) {
             itemRequested = candy;
-            if(currentPaid >= candy.getValue()){
+            if (currentPaid >= candy.getValue()) {
                 returnItem();
             }
         }
     }
-    
-    private void returnItem(){
-        if(itemRequested == cola){
-            dispenser = cola;
-            currentPaid -= cola.getValue();
-        } else if(itemRequested == chips && currentPaid >= chips.getValue()){
-            dispenser = chips;
-            currentPaid -= chips.getValue();
-        } else if(itemRequested == candy && currentPaid >= candy.getValue()){
-            dispenser = candy;
-            currentPaid-= candy.getValue();
-        }
+
+    private void returnItem() {
+        dispenser = itemRequested;
+        currentPaid -= itemRequested.getValue();
     }
-    
-    
+
 }
