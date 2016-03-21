@@ -1,6 +1,5 @@
 package vendingmachinekata;
 
-import java.util.ArrayList;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -141,9 +140,58 @@ public class VendingMachineKataTest {
     }
     
     @Test
-    public void testHavingSoldOutDisplayedIfRanOutOfItem(){
+    public void testHavingSoldOutDisplayedIfRanOutOfCola(){
         setup();
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("quarter");
+        v.requestItem("cola");
+        v.requestItem("cola");
         v.requestItem("cola");
         assertEquals("SOLD OUT", v.display());
+    }
+    
+    @Test
+    public void testHavingSoldOutDisplayedIfRanOutOfColaAfterBuyingChips(){
+        setup();
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("quarter");
+        v.insertCoin("quarter");
+        v.insertCoin("quarter");
+        v.requestItem("cola");
+        v.requestItem("chips");
+        v.requestItem("cola");
+        assertEquals("SOLD OUT", v.display());
+    }
+    
+    @Test
+    public void testInsertCoinDisplayedIfRanOutOfColaAndDisplayAlreadyChecked(){
+        setup();
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.requestItem("cola");
+        v.requestItem("cola");
+        v.requestItem("cola");
+        v.display();
+        assertEquals("INSERT COINS", v.display());
     }
 }

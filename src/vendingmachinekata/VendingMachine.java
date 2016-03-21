@@ -8,10 +8,11 @@ public class VendingMachine {
     private String currentDisplay;
     private ArrayList<String> coinReturn = new ArrayList();
     private boolean coinAllowed;
-    private final Item cola = new Item(1.00, "cola");
-    private final Item chips = new Item(0.50, "chips");
-    private final Item candy = new Item(0.65, "candy");
+    private final Item cola = new Item(1.00, "cola", 2);
+    private final Item chips = new Item(0.50, "chips", 2);
+    private final Item candy = new Item(0.65, "candy", 2);
     private Item itemRequested;
+    private boolean soldOut = false;
     public Item dispenser = null;
 
     public VendingMachine() {
@@ -67,8 +68,12 @@ public class VendingMachine {
     }
 
     private void updateDisplay() {
-        if (coinAllowed == false) {
+        if (soldOut) {
+            currentDisplay = "SOLD OUT";
+            soldOut = false;
+        } else if (!coinAllowed) {
             currentDisplay = "Not a valid coin.";
+            coinAllowed = true;
         } else if (currentPaid != 0) {
             currentDisplay = String.format("%.2f", currentPaid);
         } else if (itemRequested != null) {
@@ -96,12 +101,18 @@ public class VendingMachine {
                 returnItem();
             }
         }
+        if (itemRequested.getQuantity() == 0) {
+            soldOut = true;
+        }
     }
 
     private void returnItem() {
-        dispenser = itemRequested;
-        coinReturn.clear();
-        currentPaid -= itemRequested.getValue();
+        if (!soldOut) {
+            itemRequested.setQuantity(itemRequested.getQuantity() -1);
+            dispenser = itemRequested;
+            coinReturn.clear();
+            currentPaid -= itemRequested.getValue();
+        }
     }
 
     private void makeChange() {
@@ -109,12 +120,13 @@ public class VendingMachine {
         if (change >= .25) {
             coinReturn.add("Quarter");
             change -= .25;
-        }else if(change >= .1){
+        } else if (change >= .1) {
             coinReturn.add("Dime");
             change -= .10;
-        }else if(change >= .05){
+        } else if (change >= .05) {
             coinReturn.add("Nickel");
             change -= .05;
         }
+
     }
 }

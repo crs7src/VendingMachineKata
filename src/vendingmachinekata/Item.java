@@ -7,9 +7,10 @@ public class Item {
     private int quantity;
 
 
-    public Item(double value, String name) {
+    public Item(double value, String name, int quantity) {
         this.value = value;
         this.name = name;
+        this.quantity = quantity;
     }
     
     public Item() {
