@@ -178,7 +178,7 @@ public class VendingMachineKataTest {
     }
     
     @Test
-    public void testInsertCoinDisplayedIfRanOutOfColaAndDisplayAlreadyChecked(){
+    public void testInsertCoinDisplayedIfRanOutOfColaAndDisplayAlreadyCheckedAndNoCoinsAreLeft(){
         setup();
         v.insertCoin("Quarter");
         v.insertCoin("Quarter");
@@ -193,5 +193,24 @@ public class VendingMachineKataTest {
         v.requestItem("cola");
         v.display();
         assertEquals("INSERT COINS", v.display());
+    }
+    
+    @Test
+    public void testDisplayAmountIfRanOutOfColaAndDisplayAlreadyChecked(){
+        setup();
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("nickel");
+        v.requestItem("cola");
+        v.requestItem("cola");
+        v.requestItem("cola");
+        v.display();
+        assertEquals("0.05", v.display());
     }
 }

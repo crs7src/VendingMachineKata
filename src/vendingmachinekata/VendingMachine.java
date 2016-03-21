@@ -70,6 +70,7 @@ public class VendingMachine {
     private void updateDisplay() {
         if (soldOut) {
             currentDisplay = "SOLD OUT";
+            itemRequested = null;
             soldOut = false;
         } else if (!coinAllowed) {
             currentDisplay = "Not a valid coin.";
