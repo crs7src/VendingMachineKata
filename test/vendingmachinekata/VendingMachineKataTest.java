@@ -95,5 +95,19 @@ public class VendingMachineKataTest {
         v.display();
         assertEquals("INSERT COINS", v.display());
     }
+    
+    @Test
+    public void testDisplayMoneyAmountIfMoneyIsLeftAfterTransaction(){
+        setup();
+        v.insertCoin("Quarter");
+        v.insertCoin("Quarter");
+        v.insertCoin("quarter");
+        v.insertCoin("dime");
+        v.insertCoin("dime");
+        v.insertCoin("dime");
+        v.requestItem("cola");
+        v.display();
+        assertEquals("0.05", v.display());
+    }
 }
 
